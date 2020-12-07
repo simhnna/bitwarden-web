@@ -52,7 +52,7 @@ before_build:
       chmod 600 ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       chmod 600 ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
 
-      cat ~/.bitwarden.pub
+      cat ~/bitwarden.pub
     fi
 - cmd: set "GIT_PATH=C:\Program Files\Git\mingw64\libexec\git-core"
 - cmd: set "PATH=%GIT_PATH%;%PATH%"
