@@ -47,7 +47,14 @@ before_build:
       echo "$DOCKER_DELEGATION_KEY" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "$DOCKER_REPO_KEY" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       
+      echo "-----"
+      echo DOCKER_DELEGATION_KEY_ID=$DOCKER_DELEGATION_KEY_ID
+      echo ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+      echo DOCKER_REPO_KEY_ID=$DOCKER_REPO_KEY_ID
+      echo ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "-----"
       ls ~/.docker/trust/private/
+      echo "-----"
     fi
 - cmd: set "GIT_PATH=C:\Program Files\Git\mingw64\libexec\git-core"
 - cmd: set "PATH=%GIT_PATH%;%PATH%"
