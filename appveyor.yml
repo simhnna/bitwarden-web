@@ -44,6 +44,8 @@ before_build:
     if [ "${PUSH_DOCKER}" == "true" ]
     then
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      mkdir -p ~/.docker/trust/private
       echo "$DOCKER_DELEGATION_KEY" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "$DOCKER_REPO_KEY" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       
