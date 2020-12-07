@@ -68,6 +68,8 @@ build_script:
       
       if($env:PUSH_DOCKER -eq "true") {
         $env:DOCKER_CONTENT_TRUST = 1
+        docker trust key load ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+        docker trust key load ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
         ./build.sh push dev
 
         if($env:PROD_DEPLOY -eq "true") {
