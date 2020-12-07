@@ -45,7 +45,6 @@ before_build:
     then
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      export DOCKER_CONTENT_TRUST=1
       mkdir -p ~/.docker/trust/private
       echo "$DOCKER_DELEGATION_KEY" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "$DOCKER_REPO_KEY" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
@@ -68,6 +67,7 @@ build_script:
       docker images
       
       if($env:PUSH_DOCKER -eq "true") {
+        export DOCKER_CONTENT_TRUST=1
         ./build.sh push dev
 
         if($env:PROD_DEPLOY -eq "true") {
