@@ -67,7 +67,7 @@ build_script:
       docker images
       
       if($env:PUSH_DOCKER -eq "true") {
-        export DOCKER_CONTENT_TRUST=1
+        $env:DOCKER_CONTENT_TRUST = 1
         ./build.sh push dev
 
         if($env:PROD_DEPLOY -eq "true") {
