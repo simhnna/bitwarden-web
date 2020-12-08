@@ -72,6 +72,8 @@ before_build:
       ls -atlkh ~/.docker/trust/private
       notary -s https://notary.docker.io -d ~/.docker/trust key list
 
+      notary -s https://notary.docker.io -d ~/.docker/trust list docker.io/bitwarden/web
+
       #echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
       #cat ~/bitwardenadmin.pub
     fi
