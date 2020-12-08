@@ -49,8 +49,8 @@ before_build:
       
       echo PATH=$PATH
       echo "------------"
-      wget -O /usr/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
-      chmod +x /usr/bin/notary
+      wget -O /usr/local/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
+      chmod +x /usr/local/bin/notary
 
       notary -s https://notary.docker.io -d ~/.docker/trust key list
 
