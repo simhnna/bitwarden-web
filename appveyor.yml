@@ -45,6 +45,7 @@ before_build:
     then
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
+      export DOCKERT_CONTENT_TRUST=1
       mkdir -p ~/.docker/trust/private
       
       # Install notary
@@ -74,6 +75,7 @@ before_build:
 
       notary -s https://notary.docker.io -d ~/.docker/trust list docker.io/bitwarden/web
 
+      export DOCKERT_CONTENT_TRUST=
       #echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
       #cat ~/bitwardenadmin.pub
     fi
