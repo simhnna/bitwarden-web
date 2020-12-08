@@ -46,12 +46,26 @@ before_build:
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       mkdir -p ~/.docker/trust/private
-      echo "$DOCKER_DELEGATION_KEY" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
-      echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
-      echo "$DOCKER_REPO_KEY" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      
+      # Create Trust Keys (because AppVeyor doesn't support storing them
+      # https://www.appveyor.com/docs/how-to/private-git-sub-modules/#ui
+      #
+      # ----------------------------------------------------------------------------
+      echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+      echo "role: bitwardenadmin" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+      echo "$DOCKER_DELEGATION_KEY" | tr " " "\n" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+      echo "-----BEGIN RSA PRIVATE KEY-----" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+
+      echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "gun: docker.io/bitwarden/web" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "role: targets" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "$DOCKER_REPO_KEY" | tr " " "\n" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "-----BEGIN RSA PRIVATE KEY-----" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+
       chmod 600 ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       chmod 600 ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
 
+      #echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
       cat ~/bitwardenadmin.pub
     fi
 - cmd: set "GIT_PATH=C:\Program Files\Git\mingw64\libexec\git-core"
