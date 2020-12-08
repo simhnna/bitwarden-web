@@ -52,8 +52,6 @@ before_build:
       sudo wget -O /usr/local/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
       sudo chmod +x /usr/local/bin/notary
 
-      notary -s https://notary.docker.io -d ~/.docker/trust key list
-
       # Create Trust Keys (because AppVeyor doesn't support storing them
       # https://www.appveyor.com/docs/how-to/private-git-sub-modules/#ui
       echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
@@ -69,6 +67,8 @@ before_build:
 
       chmod 600 ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       chmod 600 ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+
+      notary -s https://notary.docker.io -d ~/.docker/trust key list
 
       #echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
       #cat ~/bitwardenadmin.pub
