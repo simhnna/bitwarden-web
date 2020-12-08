@@ -47,6 +47,13 @@ before_build:
 
       mkdir -p ~/.docker/trust/private
       
+      echo PATH=$PATH
+      echo "------------"
+      wget -O /usr/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
+      chmod +x /usr/bin/notary
+
+      notary -s https://notary.docker.io -d ~/.docker/trust key list
+
       # Create Trust Keys (because AppVeyor doesn't support storing them
       # https://www.appveyor.com/docs/how-to/private-git-sub-modules/#ui
       echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
