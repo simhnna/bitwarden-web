@@ -70,9 +70,11 @@ before_build:
       chmod 600 ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       chmod 600 ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
 
+      # Debugging
+      echo DOCKER_CONTNENT_TRUST_REPOSITORY_PASSPHRASE=$DOCKER_CONTNENT_TRUST_REPOSITORY_PASSPHRASE
+
       ls -atlkh ~/.docker/trust/private
       notary -s https://notary.docker.io -d ~/.docker/trust key list
-
       notary -s https://notary.docker.io -d ~/.docker/trust list docker.io/bitwarden/web
 
       export DOCKERT_CONTENT_TRUST=
