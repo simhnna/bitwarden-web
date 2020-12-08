@@ -47,31 +47,29 @@ before_build:
 
       mkdir -p ~/.docker/trust/private
       
-      echo PATH=$PATH
-      echo "------------"
+      # Install notary
       sudo wget -O /usr/local/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
       sudo chmod +x /usr/local/bin/notary
 
-      # Create Trust Keys (because AppVeyor doesn't support storing them
+      # Create Trust Keys (because AppVeyor doesn't support storing them)
       # https://www.appveyor.com/docs/how-to/private-git-sub-modules/#ui
       echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
-      echo "path: 5702b22123e058cbd96a7a43000cb981ae98ef3f2f4aa34138ab3dc1d011e446" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
+      echo "path: $DOCKER_DELEGATION_KEY_ID" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "role: bitwardenadmin" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
-      echo "" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "$DOCKER_DELEGATION_KEY" | tr " " "\n" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       echo "-----BEGIN RSA PRIVATE KEY-----" >> ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
 
       echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       echo "gun: docker.io/bitwarden/web" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
-      echo "path: 0f88641697187f42a31b584897cd4edfe80360a5209122d9e7f71af17a6422e4" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
+      echo "path: $DOCKER_REPO_KEY_ID" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       echo "role: targets" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
-      echo "" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       echo "$DOCKER_REPO_KEY" | tr " " "\n" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
       echo "-----BEGIN RSA PRIVATE KEY-----" >> ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
 
       chmod 600 ~/.docker/trust/private/$DOCKER_DELEGATION_KEY_ID.key
       chmod 600 ~/.docker/trust/private/$DOCKER_REPO_KEY_ID.key
 
+      ls -atlkh ~/.docker/trust/private
       notary -s https://notary.docker.io -d ~/.docker/trust key list
 
       #echo "$DOCKER_DELEGATION_PUBLIC_KEY" > ~/bitwardenadmin.pub
