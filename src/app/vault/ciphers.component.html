@@ -73,6 +73,10 @@
                                 <i class="fa fa-fw fa-share-alt" aria-hidden="true"></i>
                                 {{'share' | i18n}}
                             </a>
+                            <a class="dropdown-item" href="#" appStopClick (click)="copy(c, permalink(c), 'permalink', 'permalink')">
+                                <i class="fa fa-external-link fa-external-link-alt" aria-hidden="true"></i>
+                                Permalink
+                            </a>
                             <a class="dropdown-item" href="#" appStopClick *ngIf="c.organizationId && !c.isDeleted"
                                 (click)="collections(c)">
                                 <i class="fa fa-fw fa-cubes" aria-hidden="true"></i>

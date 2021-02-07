@@ -104,6 +104,7 @@ export class AppComponent implements OnDestroy, OnInit {
                         this.notificationsService.updateConnection(false);
                         break;
                     case 'authBlocked':
+                        await this.stateService.save('loginRedirect', { route: message.url });
                         this.router.navigate(['/']);
                         break;
                     case 'logout':

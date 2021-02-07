@@ -114,6 +114,10 @@ export class VaultComponent implements OnInit, OnDestroy {
                 } else if (params.collectionId) {
                     this.groupingsComponent.selectedCollectionId = params.collectionId;
                     await this.filterCollection(params.collectionId);
+                } else if (params.itemId) {
+                    await this.ciphersComponent.reload();
+                    const cipher = this.ciphersComponent.ciphers.find(c => c.id === params.itemId);
+                    this.editCipher(cipher);
                 } else {
                     this.groupingsComponent.selectedAll = true;
                     await this.ciphersComponent.reload();
@@ -371,6 +375,12 @@ export class VaultComponent implements OnInit, OnDestroy {
 
         this.modal.onClosed.subscribe(() => {
             this.modal = null;
+            const {itemId, ...queryParams} = this.route.snapshot.queryParams;
+            if (itemId) {
+                this.router.navigate(this.route.snapshot.url, {
+                    queryParams,
+                })
+            }
         });
 
         return childComponent;

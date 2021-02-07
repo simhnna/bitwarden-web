@@ -10,6 +10,7 @@ import { ToasterService } from 'angular2-toaster';
 import { Angulartics2 } from 'angulartics2';
 
 import { CipherService } from 'jslib/abstractions/cipher.service';
+import { EnvironmentService } from 'jslib/abstractions/environment.service';
 import { EventService } from 'jslib/abstractions/event.service';
 import { I18nService } from 'jslib/abstractions/i18n.service';
 import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
@@ -44,7 +45,8 @@ export class CiphersComponent extends BaseCiphersComponent implements OnDestroy 
     constructor(searchService: SearchService, protected analytics: Angulartics2,
         protected toasterService: ToasterService, protected i18nService: I18nService,
         protected platformUtilsService: PlatformUtilsService, protected cipherService: CipherService,
-        protected eventService: EventService, protected totpService: TotpService, protected userService: UserService) {
+        protected eventService: EventService, protected totpService: TotpService, protected userService: UserService,
+        private environmentService: EnvironmentService) {
         super(searchService);
         this.pageSize = 200;
     }
@@ -76,6 +78,10 @@ export class CiphersComponent extends BaseCiphersComponent implements OnDestroy 
 
     clone(c: CipherView) {
         this.onCloneClicked.emit(c);
+    }
+
+    permalink(c: CipherView) {
+        return `${this.environmentService.getWebVaultUrl()}${c.permalink}`
     }
 
     async delete(c: CipherView): Promise<boolean> {
